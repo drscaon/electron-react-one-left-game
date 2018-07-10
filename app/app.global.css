@@ -1,0 +1,81 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ *//*
+ @import "~font-awesome/css/font-awesome.css";
+*/
+.App {
+    text-align: center;
+  }
+  
+  .Square-board{
+    height: 280px;
+    width: 280px;
+    background-image: url("../resources/textures/metalzoom.png") ;
+    background-repeat: no-repeat, repeat;
+    background-size: cover;
+    margin: 150px auto;
+    padding: 10px;
+    box-shadow: 2px 2px rgb(55, 55, 55);
+    border-radius: 15px;
+  }
+  
+  .Square{
+    border:0 ;
+    height:40px ;
+    width:40px ;
+    background: transparent;
+  }
+  
+  .Pin{
+    border:0;
+    margin: 0 auto;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    background: radial-gradient(circle at 6px 6px,  rgb(200, 200, 206), rgb(55, 55, 151), rgb(5, 5, 151));
+  
+  }
+  
+  .Hole{
+    border:0;
+    margin: 0 auto;
+    height: 10px;
+    width: 10px;
+    background: black;
+    border-radius: 10px;
+    
+  }
+  
+  .Chosen{
+    background: radial-gradient(circle at 6px 6px,  rgb(232, 239, 245),  rgb(11, 173, 173), rgb(0, 78, 255));
+    height: 22px;
+    width: 22px;
+  }
+  
+  .board-row{
+    height: 40px;
+  }
+  
+  button:focus{
+    outline: yellow;
+  }
+  
+  button{
+    border-radius: 6px;
+  }
+
+  .DivGameType{
+    padding: 10px;
+    background: gainsboro;
+    border-radius: 6px;
+    width: 550px;
+    margin: 0 auto;
+  }
+
+  .BtnGameType{
+    width: 75px;
+    padding: 10px;
+    background: lightblue;
+    border-radius: 6px;
+  }
