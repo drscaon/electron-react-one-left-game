@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
+import BOARDS from '../config/boards'
 //import logo from './logo.svg';
 //import './game.css';
 
@@ -136,73 +138,7 @@ function GameTable(props){
   );
 }
 
-const board = {
-  Standard : [
-    'e','e','p','p','p','e','e',
-    'e','e','p','p','p','e','e',
-    'p','p','p','p','p','p','p',
-    'p','p','p','h','p','p','p',
-    'p','p','p','p','p','p','p',
-    'e','e','p','p','p','e','e',
-    'e','e','p','p','p','e','e',
-    ],
-  Cross : [
-    'e','e','h','h','h','e','e',
-    'e','e','h','p','h','e','e',
-    'h','h','p','p','p','h','h',
-    'h','h','h','p','h','h','h',
-    'h','h','h','p','h','h','h',
-    'e','e','h','h','h','e','e',
-    'e','e','h','h','h','e','e',
-    ],
-  Plus : [
-    'e','e','h','h','h','e','e',
-    'e','e','h','p','h','e','e',
-    'h','h','h','p','h','h','h',
-    'h','p','p','p','p','p','h',
-    'h','h','h','p','h','h','h',
-    'e','e','h','p','h','e','e',
-    'e','e','h','h','h','e','e',
-    ],
-  Bench : [
-    'e','e','p','p','p','e','e',
-    'e','e','p','p','p','e','e',
-    'h','h','p','p','p','h','h',
-    'h','h','p','h','p','h','h',
-    'h','h','h','h','h','h','h',
-    'e','e','h','h','h','e','e',
-    'e','e','h','h','h','e','e',
-    ],
-  Arrow : [
-    'e','e','h','p','h','e','e',
-    'e','e','p','p','p','e','e',
-    'h','p','p','p','p','p','h',
-    'h','h','h','p','h','h','h',
-    'h','h','h','p','h','h','h',
-    'e','e','p','p','p','e','e',
-    'e','e','p','p','p','e','e',
-    ],
-  Pyramid : [
-    'e','e','h','h','h','e','e',
-    'e','e','h','p','h','e','e',
-    'h','h','p','p','p','h','h',
-    'h','p','p','p','p','p','h',
-    'p','p','p','p','p','p','p',
-    'e','e','h','h','h','e','e',
-    'e','e','h','h','h','e','e',
-  ],
-  Diamond : [
-    'e','e','h','p','h','e','e',
-    'e','e','p','p','p','e','e',
-    'h','p','p','p','p','p','h',
-    'p','p','p','h','p','p','p',
-    'h','p','p','p','p','p','h',
-    'e','e','p','p','p','e','e',
-    'e','e','h','p','h','e','e',
-  ]
-}
-
-
+const board = BOARDS;
 
 class Game extends Component {
 
@@ -211,6 +147,7 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      boardName: 'Standard',
       squares: board.Standard.slice(),
       chosenPin: null
     };
@@ -218,16 +155,8 @@ class Game extends Component {
 
   restart(){
     this.setState({
+      boardName: 'Standard',
       squares: board.Standard.slice(),
-      chosenPin: null
-    });
-  }
-
-  setBoard(type){
-    console.log('SET BOARD TO ');
-    console.log(type);
-    this.setState({
-      squares: board[type].slice(),
       chosenPin: null
     });
   }
@@ -282,23 +211,45 @@ class Game extends Component {
     }
   }
 
+  handleBoardNameChange(event) {
+    console.log('event = ');
+    console.log(event);
+    const boardName = event.value;
+    this.setState({
+      boardName: boardName,
+      squares: board[boardName].slice(),
+      chosenPin: null
+    });
+  }
+
   render() {
     const self = this;
     const squares = self.state.squares;
     const chosenPin = self.state.chosenPin;
-    const boardTypeList= Object.keys(board).map(function(name){
-      return <button className="BtnGameType" onClick={()=> self.setBoard(name)}> {name} </button>;
+    const boardNameList= Object.keys(board).map(function(name){
+      return ({ value: name, label: name });
     })
     return (
       <div className="App">
-        <GameTable
-        squares={squares}
-        chosenPin={chosenPin}
-        onClick={(i) => self.handleClick(i)}
-         />
-        <div className="DivGameType">
-           { boardTypeList }
+        <div className="DivGameLabel">
+          <Select  
+            name="form-field-board-label"
+            value={this.state.value} 
+            searchable={false}
+            selectValue={this.state.value}
+            clearable= {false}
+            rtl={false}
+            onChange={(event) => self.handleBoardNameChange(event)}
+            options={boardNameList}
+            placeholder={'New Game'}
+            />
         </div>
+        <h1 className="boardNameLabel">{self.state.boardName}</h1>
+        <GameTable
+          squares={squares}
+          chosenPin={chosenPin}
+          onClick={(i) => self.handleClick(i)}
+         />
       </div>
     );
   }

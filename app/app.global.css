@@ -4,6 +4,9 @@
  *//*
  @import "~font-awesome/css/font-awesome.css";
 */
+
+@import "~react-select/dist/react-select.css";
+
 .App {
     text-align: center;
   }
@@ -14,7 +17,7 @@
     background-image: url("../resources/textures/metalzoom.png") ;
     background-repeat: no-repeat, repeat;
     background-size: cover;
-    margin: 150px auto;
+    margin: 30px auto;
     padding: 10px;
     box-shadow: 2px 2px rgb(55, 55, 55);
     border-radius: 15px;
@@ -65,17 +68,14 @@
     border-radius: 6px;
   }
 
-  .DivGameType{
+  .DivGameLabel{
     padding: 10px;
-    background: gainsboro;
-    border-radius: 6px;
-    width: 550px;
+    background: transparent;
+    width: 200px;
     margin: 0 auto;
+    padding-bottom: 30px;
   }
 
-  .BtnGameType{
-    width: 75px;
-    padding: 10px;
-    background: lightblue;
-    border-radius: 6px;
+  .boardNameLabel{
+    color: #1d4a9e;
   }
