@@ -15,7 +15,7 @@ Leave only one pin to win!
   </tr>
   <tr>
     <td>Windows</td>
-    <td><a href="https://github.com/drscaon/electron-react-one-left-game/blob/master/release/OneLeft%20Setup%201.0.0.exe">1.0.0</a></td>
+    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.0.0/OneLeft.Setup.1.0.0.exe">1.0.0</a></td>
   </tr>
 </table>
 
