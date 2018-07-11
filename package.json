@@ -41,8 +41,8 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "OneLeft",
+    "appId": "OneLeft",
     "files": [
       "dist/",
       "node_modules/",

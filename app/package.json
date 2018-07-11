@@ -1,18 +1,18 @@
 {
-    "name": "ONE LEFT",
-    "productName": "one-left",
-    "version": "1.0.0",
-    "description": "A TRADITIONAL BOARD GAME",
-    "main": "./main.prod.js",
-    "author": {
-      "name": "Daniel Regis SARMENTO CAON",
-      "email": "drscaon@gmail.com",
-      "url": "https://github.com/drscaon"
-    },
-    "scripts": {
-      "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
-      "postinstall": "npm run electron-rebuild"
-    },
-    "license": "MIT",
-    "dependencies": {}
+  "name": "ONE-LEFT",
+  "productName": "one-left",
+  "version": "1.0.0",
+  "description": "A TRADITIONAL BOARD GAME",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "Daniel Regis SARMENTO CAON",
+    "email": "drscaon@gmail.com",
+    "url": "https://github.com/drscaon"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
+    "postinstall": "npm run electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {}
 }
