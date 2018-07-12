@@ -25,5 +25,9 @@ Leave only one pin to win!
 </table>
 
 
+## Donations
+- Bitcoin : 1DNJ1B19Rp8Q5Z1d9UsyzKzbZY2Xqp1Yqv
+
+
 
 
