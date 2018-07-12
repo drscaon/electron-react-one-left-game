@@ -27,7 +27,7 @@ Leave only one pin to win!
 
 ## Donations
 - Bitcoin : 1DNJ1B19Rp8Q5Z1d9UsyzKzbZY2Xqp1Yqv
-
+<img src="https://blockchain.info/qr?data=1DNJ1B19Rp8Q5Z1d9UsyzKzbZY2Xqp1Yqv&amp;size=150">
 
 
 
