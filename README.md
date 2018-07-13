@@ -5,8 +5,12 @@ Leave only one pin to win!
 
 <table align="center">
   <tr>
+<td><img src="/resources/one_left_screenshot.png" width="400"></td>
 <td><img src="/resources/one_left_screenshot_2.png" width="400"></td>
+    </tr>
+    <tr>
 <td><img src="/resources/one_left_screenshot_3.png" width="400"></td>
+<td><img src="/resources/one_left_screenshot_4.png" width="400"></td>
 </td>
   </tr>
 </table>
@@ -18,10 +22,18 @@ Leave only one pin to win!
     <th>Download</th>
   </tr>
   <tr>
-    <td>Windows</td>
+    <td>Windows (.exe)</td>
     <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.0.0/OneLeft.Setup.1.0.0.exe">1.0.0</a></td>
-    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.1.0/OneLeft.Setup.1.1.0.exe">1.1.0 (latest)</a></td>
+    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.1.0/OneLeft.Setup.1.1.0.exe">1.1.0 </a></td>
+    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.1.0/OneLeft.Setup.1.2.0.exe">1.2.0 (latest)</a></td>
   </tr>
+  <tr>
+    <td>Linux (.deb)</td>
+    <td> - </td>
+    <td> - </td>
+    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.2.0/ONE-LEFT_1.2.0_amd64.deb">1.2.0 (latest)</a></td>
+  </tr>
+  
 </table>
 
 
