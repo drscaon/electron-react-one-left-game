@@ -12,13 +12,13 @@
   }
   
   .Square-board{
-    height: 280px;
-    width: 280px;
+    /*height: 280px;*/
+    /*width: 280px;*/
     background-image: url("../resources/textures/metalzoom.png") ;
     background-repeat: no-repeat, repeat;
     background-size: cover;
-    margin: 30px auto;
-    padding: 10px;
+    margin: 55px auto;
+    padding: 0px;
     box-shadow: 2px 2px rgb(55, 55, 55);
     border-radius: 15px;
   }
@@ -83,4 +83,8 @@
 
   .boardNameLabel{
     color: #1d4a9e;
+  }
+
+  .ShadowContainer{
+    filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.7));
   }

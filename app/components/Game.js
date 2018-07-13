@@ -54,72 +54,31 @@ class BoardMatrix extends Component {
       />
     );
   }
+  renderRow(currentRow,cols){
+    let rowItems = []
+    for(let j=0;j<cols;j++){
+       rowItems.push(this.renderSquare(cols*currentRow + j));
+    }
+    return (
+      <div className="board-row">
+        {rowItems}
+      </div>
+    );
+  }
+
   render() {
+    // consider the board as being always a perfect square, so...
+    // take n from the length of the board configuration
+    const rows = Math.sqrt(this.props.squares.length); // totalLen=49, n=7
+    const cols = rows;
+    let response = [];
+    for(let i=0;i<rows;i++){
+      response.push(this.renderRow(i,cols));
+    }
+
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-          {this.renderSquare(6)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-          {this.renderSquare(9)}
-          {this.renderSquare(10)}
-          {this.renderSquare(11)}
-          {this.renderSquare(12)}
-          {this.renderSquare(13)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(14)}
-          {this.renderSquare(15)}
-          {this.renderSquare(16)}
-          {this.renderSquare(17)}
-          {this.renderSquare(18)}
-          {this.renderSquare(19)}
-          {this.renderSquare(20)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(21)}
-          {this.renderSquare(22)}
-          {this.renderSquare(23)}
-          {this.renderSquare(24)}
-          {this.renderSquare(25)}
-          {this.renderSquare(26)}
-          {this.renderSquare(27)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(28)}
-          {this.renderSquare(29)}
-          {this.renderSquare(30)}
-          {this.renderSquare(31)}
-          {this.renderSquare(32)}
-          {this.renderSquare(33)}
-          {this.renderSquare(34)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(35)}
-          {this.renderSquare(36)}
-          {this.renderSquare(37)}
-          {this.renderSquare(38)}
-          {this.renderSquare(39)}
-          {this.renderSquare(40)}
-          {this.renderSquare(41)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(42)}
-          {this.renderSquare(43)}
-          {this.renderSquare(44)}
-          {this.renderSquare(45)}
-          {this.renderSquare(46)}
-          {this.renderSquare(47)}
-          {this.renderSquare(48)}
-        </div>
+        {response}
       </div>
     );
   }
@@ -127,13 +86,18 @@ class BoardMatrix extends Component {
 
 // renders the board square
 function GameTable(props){
+  const rotation = props.rotation; //props.boardName==='English Triangle'?  'rotate(45deg)' : 'rotate(0deg)' ;
+  const clipPath = props.clipPath;//props.boardName==='English Triangle'? 'polygon(0% 0%, 112% 0%, 0% 112%)' : null;
+  const rows = Math.sqrt(props.squares.length); // totalLen=49, n=7
   return(
-    <div className="Square-board">
-      <BoardMatrix
-      squares={props.squares} 
-      chosenPin={props.chosenPin}
-      onClick={props.onClick}
-        />
+    <div className='ShadowContainer'>
+      <div className="Square-board" style={{width : 40*rows, height : 40*rows, transform:rotation, clipPath:clipPath}}>
+        <BoardMatrix
+        squares={props.squares} 
+        chosenPin={props.chosenPin}
+        onClick={props.onClick}
+          />
+      </div>
     </div>
   );
 }
@@ -148,7 +112,9 @@ class Game extends Component {
     super(props);
     this.state = {
       boardName: 'Standard',
-      squares: board.Standard.slice(),
+      squares: board.Standard.Pins.slice(),
+      rotation: board.Standard.Rotation,
+      clipPath: board.Standard.ClipPath,
       chosenPin: null
     };
   }
@@ -156,7 +122,9 @@ class Game extends Component {
   restart(){
     this.setState({
       boardName: 'Standard',
-      squares: board.Standard.slice(),
+      squares: board.Standard.Pins.slice(),
+      rotation: board.Standard.Rotation,
+      clipPath: board.Standard.ClipPath,
       chosenPin: null
     });
   }
@@ -165,13 +133,16 @@ class Game extends Component {
     // has a pin between?
     // +-14 diff (vertical)  [pin = +-7]
     // +-2 diff (horizontal) [pin = +-1]
+
+    const numHorizontalPins = Math.sqrt(this.state.squares.length);
+
     let middlePinPosition;
     const diff = destiny-origin;//24-10=14
-    if(diff === 14 && this.state.squares[origin+7] ==='p'){ // down
-      middlePinPosition = origin+7;
+    if(diff === (2*numHorizontalPins) && this.state.squares[origin+numHorizontalPins] ==='p'){ // down
+      middlePinPosition = origin+numHorizontalPins;
     }
-    else if(diff === -14 && this.state.squares[origin-7] ==='p' ) { // up
-      middlePinPosition = origin-7;
+    else if(diff === -(2*numHorizontalPins) && this.state.squares[origin-numHorizontalPins] ==='p' ) { // up
+      middlePinPosition = origin-numHorizontalPins;
     }
     else if(diff === 2 && this.state.squares[origin+1] ==='p' ) { // right
       middlePinPosition = origin+1;
@@ -217,7 +188,9 @@ class Game extends Component {
     const boardName = event.value;
     this.setState({
       boardName: boardName,
-      squares: board[boardName].slice(),
+      squares: board[boardName].Pins.slice(),
+      rotation: board[boardName].Rotation,
+      clipPath: board[boardName].ClipPath,
       chosenPin: null
     });
   }
@@ -226,6 +199,9 @@ class Game extends Component {
     const self = this;
     const squares = self.state.squares;
     const chosenPin = self.state.chosenPin;
+    const boardName = self.state.boardName;
+    const rotation = self.state.rotation;
+    const clipPath = self.state.clipPath;
     const boardNameList= Object.keys(board).map(function(name){
       return ({ value: name, label: name });
     })
@@ -248,6 +224,9 @@ class Game extends Component {
         <GameTable
           squares={squares}
           chosenPin={chosenPin}
+          boardName={boardName}
+          rotation={rotation}
+          clipPath={clipPath}
           onClick={(i) => self.handleClick(i)}
          />
       </div>
