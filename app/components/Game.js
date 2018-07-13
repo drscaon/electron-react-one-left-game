@@ -202,35 +202,53 @@ class Game extends Component {
     const boardName = self.state.boardName;
     const rotation = self.state.rotation;
     const clipPath = self.state.clipPath;
+
+    const countPins = squares.filter(function(square){
+      return square === 'p';
+    }).length;
+    const hasWinner = (countPins===1);
+    
     const boardNameList= Object.keys(board).map(function(name){
       return ({ value: name, label: name });
     })
-    return (
-      <div className="App">
-        <div className="DivGameLabel">
-          <Select  
-            name="form-field-board-label"
-            value={this.state.value} 
-            searchable={false}
-            selectValue={this.state.value}
-            clearable= {false}
-            rtl={false}
-            onChange={(event) => self.handleBoardNameChange(event)}
-            options={boardNameList}
-            placeholder={'New Game'}
-            />
+    if(hasWinner){
+      return (
+        <div className="App">
+          <div className="DivGameLabel">
+           <div className='Winner' onClick={() => self.restart()}/>
+          </div>
         </div>
-        <h1 className="boardNameLabel">{self.state.boardName}</h1>
-        <GameTable
-          squares={squares}
-          chosenPin={chosenPin}
-          boardName={boardName}
-          rotation={rotation}
-          clipPath={clipPath}
-          onClick={(i) => self.handleClick(i)}
-         />
-      </div>
-    );
+      )
+    }
+    else{
+      return (
+        <div className="App">
+          <div className="DivGameLabel">
+            <Select
+              name="form-field-board-label"
+              value={this.state.value} 
+              searchable={false}
+              selectValue={this.state.value}
+              clearable= {false}
+              rtl={false}
+              onChange={(event) => self.handleBoardNameChange(event)}
+              options={boardNameList}
+              placeholder={'New Game'}
+              />
+          </div>
+          <h1 className="boardNameLabel">{self.state.boardName}</h1>
+          <GameTable
+            squares={squares}
+            chosenPin={chosenPin}
+            boardName={boardName}
+            rotation={rotation}
+            clipPath={clipPath}
+            onClick={(i) => self.handleClick(i)}
+           />
+        </div>
+      );
+    }
+    
   }
 }
 

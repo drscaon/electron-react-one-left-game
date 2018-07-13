@@ -72,8 +72,7 @@
     },
     "linux": {
       "target": [
-        "deb",
-        "AppImage"
+        "deb"
       ],
       "category": "Development"
     },
@@ -148,7 +147,7 @@
     "css-loader": "^0.28.11",
     "detect-port": "^1.2.3",
     "electron": "^2.0.2",
-    "electron-builder": "^20.14.7",
+    "electron-builder": "^20.20.4",
     "electron-devtools-installer": "^2.2.4",
     "electron-rebuild": "^1.7.3",
     "enzyme": "^3.3.0",

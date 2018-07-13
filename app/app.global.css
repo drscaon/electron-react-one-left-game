@@ -7,8 +7,20 @@
 
 @import "~react-select/dist/react-select.css";
 
-.App {
-    text-align: center;
+  .App {
+      text-align: center;
+    }
+
+  .Winner{
+    background-image: url("../resources/gifs/winner.gif") ;
+    background-repeat: repeat;
+    height: 100%;
+    background-position: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
   }
   
   .Square-board{
