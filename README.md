@@ -23,15 +23,11 @@ Leave only one pin to win!
   </tr>
   <tr>
     <td>Windows (.exe)</td>
-    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.0.0/OneLeft.Setup.1.0.0.exe">1.0.0</a></td>
-    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.1.0/OneLeft.Setup.1.1.0.exe">1.1.0 </a></td>
-    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.1.0/OneLeft.Setup.1.2.0.exe">1.2.0 (latest)</a></td>
+    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.3.0/OneLeft.Setup.1.3.0.exe">1.3.0 (latest)</a></td>
   </tr>
   <tr>
     <td>Linux (.deb)</td>
-    <td> - </td>
-    <td> - </td>
-    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.2.0/ONE-LEFT_1.2.0_amd64.deb">1.2.0 (latest)</a></td>
+    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v1.3.0/ONE-LEFT_1.3.0_amd64.deb">1.3.0 (latest)</a></td>
   </tr>
   
 </table>
