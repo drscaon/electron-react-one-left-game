@@ -5,8 +5,12 @@ Leave only one pin to win!
 
 <table align="center">
   <tr>
+<td><img src="/resources/one_left_screenshot.png" width="400"></td>
 <td><img src="/resources/one_left_screenshot_2.png" width="400"></td>
+    </tr>
+    <tr>
 <td><img src="/resources/one_left_screenshot_3.png" width="400"></td>
+<td><img src="/resources/one_left_screenshot_4.png" width="400"></td>
 </td>
   </tr>
 </table>
