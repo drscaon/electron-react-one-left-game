@@ -118,16 +118,15 @@ const BOARDS = {
   }
   ,
     "English Triangle" : {Pins:[
-      'h','p','p','p','p',
+      'p','p','p','p','p',
       'p','p','p','p','e',
-      'p','p','p','e','e',
+      'p','p','h','e','e',
       'p','p','e','e','e',
       'p','e','e','e','e'
     ],
     Rotation: 'rotate(45deg)',
     ClipPath: 'polygon(0% 0%, 112% 0%, 0% 112%)'
   }
-
   }
 
   export default BOARDS;

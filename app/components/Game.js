@@ -129,26 +129,52 @@ class Game extends Component {
     });
   }
 
-  tryMove(origin,destiny){
+  tryMove(origin,destiny, isDiagAllowed){
     // has a pin between?
     // +-14 diff (vertical)  [pin = +-7]
     // +-2 diff (horizontal) [pin = +-1]
+    // (diagonal top-right)[+14+2]
+    // (diagonal top-left) [+14-2]
+    // (diagonal bottom-right)[+14+2]
+    // (diagonal bottom-left)[-14+2]
+    //3-11 16-12-8
 
     const numHorizontalPins = Math.sqrt(this.state.squares.length);
-
+    console.log('from '+origin + ' to '+ destiny);
     let middlePinPosition;
     const diff = destiny-origin;//24-10=14
     if(diff === (2*numHorizontalPins) && this.state.squares[origin+numHorizontalPins] ==='p'){ // down
       middlePinPosition = origin+numHorizontalPins;
+      console.log('middlePinPosition down '+ middlePinPosition);
     }
     else if(diff === -(2*numHorizontalPins) && this.state.squares[origin-numHorizontalPins] ==='p' ) { // up
       middlePinPosition = origin-numHorizontalPins;
+      console.log('middlePinPosition up '+ middlePinPosition);
     }
     else if(diff === 2 && this.state.squares[origin+1] ==='p' ) { // right
       middlePinPosition = origin+1;
+      console.log('middlePinPosition right '+ middlePinPosition);
     }
     else if(diff === -2 && this.state.squares[origin-1] ==='p') { // left
       middlePinPosition = origin-1;
+      console.log('middlePinPosition left '+ middlePinPosition);
+    }
+    else if (isDiagAllowed){
+      if(diff === (2*numHorizontalPins+2) && this.state.squares[origin+numHorizontalPins+1] ==='p' ) { // topright
+        middlePinPosition = origin+numHorizontalPins+1;
+      }
+      else if(diff === (2*numHorizontalPins-2) && this.state.squares[origin+numHorizontalPins-1] ==='p' ) { // topright
+        middlePinPosition = origin+numHorizontalPins-1;
+      }
+      else if(diff === -((2*numHorizontalPins)-2) && this.state.squares[origin-numHorizontalPins+1] ==='p' ) { // bottomright
+        middlePinPosition = origin-numHorizontalPins+1; //11-5+1=7
+      } 
+      else if(diff === -((2*numHorizontalPins)+2) && this.state.squares[origin-numHorizontalPins-1] ==='p' ) { // bottomleft
+        middlePinPosition = origin-numHorizontalPins-1;
+      }
+      else{
+        return false;
+      }
     }
     else{
       return false;
@@ -167,18 +193,20 @@ class Game extends Component {
   
   handleClick(i) {
     // Clicked a pin (chosen or not)
+    console.log(i);
     if(this.state.squares[i]==='p' || this.state.squares[i]==='c'){
       this.setState({
         chosenPin : this.state.chosenPin === i ? null : i
       });
     }
     else if(this.state.squares[i]==='h') { // Clicked a hole
-      if(this.state.chosenPin) { //evaluate move
-        this.tryMove(this.state.chosenPin, i);
+      if(this.state.chosenPin != null) { //evaluate move
+        this.tryMove(this.state.chosenPin, i, this.state.rotation==='rotate(45deg)');
       }
     }
     else {
       // Ignore click (empty space)
+      console.log('EMPTY SPACE');
     }
   }
 
