@@ -66,10 +66,73 @@ class BoardMatrix extends Component {
     );
   }
 
+  renderHorizontalLines(){
+    const n = Math.sqrt(this.props.squares.length);
+    let response = [];
+    let x1=0, x2=0, y=0;
+
+    for(let row=0;row<n;row++){
+      y=((row*100/(n))+(100/(2*n)))+'%';
+      for(let i=0;i<n-1;i++){
+        x1=((i*100/(n))+0.5*(100/n))+'%'; 
+        x2=((i*100/(n))+1.5*(100/n))+'%';
+        if(this.props.squares[n*row+ i] && this.props.squares[n*row+i+1] && this.props.squares[n*row+i]!=='e' && this.props.squares[n*row+i+1]!=='e')
+          response.push(<line x1={x1} y1={y} x2={x2} y2={y} stroke="black"/>)
+      }
+    }
+    return response;
+  }
+
+  renderVerticalLines(){
+    const n = Math.sqrt(this.props.squares.length);
+    let response = [];
+    let y1=0, y2=0, x=0;
+
+
+    for(let col=0;col<n;col++){
+      y1=((col*100/(n))+0.5*(100/n))+'%';
+      y2=((col*100/(n))+1.5*(100/n))+'%';
+      for(let i=0;i<n;i++){
+        x=((i*100/(n))+0.5*(100/n))+'%'; 
+        if( this.props.squares[n*col+i] && this.props.squares[n*col+i+n] && this.props.squares[n*col+i]!=='e' && this.props.squares[n*col+i+n]!=='e')
+          response.push(<line x1={x} y1={y1} x2={x} y2={y2} stroke="black"/>)
+      }
+    }
+    return response;
+  }
+
+  renderDiagonalLines(){
+    const n = Math.sqrt(this.props.squares.length);
+    let response = [];
+    let y1=0, y2=0, x1=0, x2=0;
+
+    for(let col=0;col<n;col++){
+      y1=((col*100/(n))+0.5*(100/n))+'%';
+      y2=((col*100/(n))+1.5*(100/n))+'%';
+      for(let i=1;i<n;i++){
+        x1=((i*100/(n))+0.5*(100/n))+'%'; 
+        x2=((i*100/(n))-0.5*(100/n))+'%'; 
+        if( this.props.squares[n*col+i] && this.props.squares[n*col+i+n-1] 
+          && this.props.squares[n*col+i]!=='e' && this.props.squares[n*col+i+n-1]!=='e'
+        )
+          response.push(<line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black"/>)
+        }
+    }
+    return response;
+  }
+
   render() {
+    let horizontalLines = [];
+    let verticalLines = [];
+    let diagonalLines = [];
+    horizontalLines.push(this.renderHorizontalLines(this.props.squares.length));
+    verticalLines.push(this.renderVerticalLines(this.props.squares.length));
+    if(this.props.isDiagAllowed){
+      diagonalLines.push(this.renderDiagonalLines(this.props.squares.length));
+    }
     // consider the board as being always a perfect square, so...
     // take n from the length of the board configuration
-    const rows = Math.sqrt(this.props.squares.length); // totalLen=49, n=7
+    const rows = Math.sqrt(this.props.squares.length); // totalLen=49 n=7 , totalLen=25 n=5
     const cols = rows;
     let response = [];
     for(let i=0;i<rows;i++){
@@ -78,6 +141,13 @@ class BoardMatrix extends Component {
 
     return (
       <div>
+         <div className="divLines">
+          <svg width="auto" height="auto">
+          {horizontalLines}
+          {verticalLines}
+          {diagonalLines}
+          </svg>
+        </div>
         {response}
       </div>
     );
@@ -96,6 +166,7 @@ function GameTable(props){
         squares={props.squares} 
         chosenPin={props.chosenPin}
         onClick={props.onClick}
+        isDiagAllowed={props.rotation==='rotate(45deg)'}
           />
       </div>
     </div>
@@ -140,24 +211,19 @@ class Game extends Component {
     //3-11 16-12-8
 
     const numHorizontalPins = Math.sqrt(this.state.squares.length);
-    console.log('from '+origin + ' to '+ destiny);
     let middlePinPosition;
     const diff = destiny-origin;//24-10=14
     if(diff === (2*numHorizontalPins) && this.state.squares[origin+numHorizontalPins] ==='p'){ // down
       middlePinPosition = origin+numHorizontalPins;
-      console.log('middlePinPosition down '+ middlePinPosition);
     }
     else if(diff === -(2*numHorizontalPins) && this.state.squares[origin-numHorizontalPins] ==='p' ) { // up
       middlePinPosition = origin-numHorizontalPins;
-      console.log('middlePinPosition up '+ middlePinPosition);
     }
     else if(diff === 2 && this.state.squares[origin+1] ==='p' ) { // right
       middlePinPosition = origin+1;
-      console.log('middlePinPosition right '+ middlePinPosition);
     }
     else if(diff === -2 && this.state.squares[origin-1] ==='p') { // left
       middlePinPosition = origin-1;
-      console.log('middlePinPosition left '+ middlePinPosition);
     }
     else if (isDiagAllowed){
       if(diff === (2*numHorizontalPins+2) && this.state.squares[origin+numHorizontalPins+1] ==='p' ) { // topright
@@ -193,7 +259,6 @@ class Game extends Component {
   
   handleClick(i) {
     // Clicked a pin (chosen or not)
-    console.log(i);
     if(this.state.squares[i]==='p' || this.state.squares[i]==='c'){
       this.setState({
         chosenPin : this.state.chosenPin === i ? null : i
@@ -204,15 +269,9 @@ class Game extends Component {
         this.tryMove(this.state.chosenPin, i, this.state.rotation==='rotate(45deg)');
       }
     }
-    else {
-      // Ignore click (empty space)
-      console.log('EMPTY SPACE');
-    }
   }
 
   handleBoardNameChange(event) {
-    console.log('event = ');
-    console.log(event);
     const boardName = event.value;
     this.setState({
       boardName: boardName,
