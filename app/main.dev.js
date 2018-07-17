@@ -66,7 +66,7 @@ app.on('ready', async () => {
     height: 600
   });
 
- // mainWindow.setMenu(null);
+  mainWindow.setMenu(null);
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
