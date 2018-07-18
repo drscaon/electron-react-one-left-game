@@ -20,7 +20,7 @@ Leave only one pin to win!
 <a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/OneLeft.Setup.2.0.0.exe">Download for Windows (x64)</a>
 </td></tr></table>
 <table style="background:black;color:white;font-weight:bolder"><tr><td>
-<a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/OneLeft.Setup.2.0.0.exe">Download for Linux</a>
+<a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/ONE-LEFT_2.0.0_amd64.deb">Download for Linux</a>
 </td></tr></table>
 
 ## Donations
