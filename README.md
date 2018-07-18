@@ -15,23 +15,13 @@ Leave only one pin to win!
   </tr>
 </table>
 
-## 💾 Downloads
-<table align="center">
-  <tr>
-    <th>Platform</th>
-    <th>Download</th>
-  </tr>
-  <tr>
-    <td>Windows (.exe)</td>
-    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/OneLeft.Setup.2.0.0.exe">2.0.0 (latest)</a></td>
-  </tr>
-  <tr>
-    <td>Linux (.deb)</td>
-    <td><a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/ONE-LEFT_2.0.0_amd64.deb">2.0.0 (latest)</a></td>
-  </tr>
-  
-</table>
-
+## Downloads
+<table style="background:black;color:white;font-weight:bolder"><tr><td>
+<a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/OneLeft.Setup.2.0.0.exe">Download for Windows (x64)</a>
+</td></tr></table>
+<table style="background:black;color:white;font-weight:bolder"><tr><td>
+<a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/OneLeft.Setup.2.0.0.exe">Download for Linux</a>
+</td></tr></table>
 
 ## Donations
 - Bitcoin : 1DNJ1B19Rp8Q5Z1d9UsyzKzbZY2Xqp1Yqv
