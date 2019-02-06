@@ -22,6 +22,10 @@ Leave only one pin to win!
 <table style="background:black;color:white;font-weight:bolder"><tr><td>
 <a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/ONE-LEFT_2.0.0_amd64.deb">Download for Linux</a>
 </td></tr></table>
+<table style="background:black;color:white;font-weight:bolder"><tr><td>
+<a href="https://github.com/drscaon/electron-react-one-left-game/releases/download/v2.0.0/OneLeft.app.zip">Download for Mac</a>
+</td></tr></table>
+
 
 ## Donations
 - Bitcoin : 1DNJ1B19Rp8Q5Z1d9UsyzKzbZY2Xqp1Yqv
