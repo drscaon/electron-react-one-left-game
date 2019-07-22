@@ -7,9 +7,10 @@
 
 @import "~react-select/dist/react-select.css";
 
+
   .App {
       text-align: center;
-    }
+  }
 
   .Winner{
     background-image: url("../resources/gifs/winner.gif") ;

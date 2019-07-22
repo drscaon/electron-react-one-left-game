@@ -1,206 +1,40 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import BOARDS from '../config/boards'
-//import logo from './logo.svg';
-//import './game.css';
-
-function Square(props) {
-  if(props.value === 'e'){
-    return (
-      <button className={'Square'} onClick={props.onClick}>
-      </button>
-      );
-  }
-
-  let cname = '';
-  if(props.value === 'p'){
-    cname = 'Pin';
-    return (
-      <button className={'Square'} onClick={props.onClick}>
-        <div className={cname} />
-      </button>
-    );
-  }
-  else if(props.value === 'c'){
-    cname = 'Chosen Pin';
-  }
-  else if(props.value === 'h'){
-    cname = 'Hole';
-  }
-
-  return (
-    <button className={'Square'} onClick={props.onClick}>
-      <div className={cname} />
-    </button>
-  );
-}
-
-// renders the board's matrix (7x7)
-class BoardMatrix extends Component {
-
-  renderSquare(i){
-    if(i===this.props.chosenPin){
-      return (
-      <Square
-        value={'c'} //chosen
-        onClick={() => this.props.onClick(i)}
-      />
-      );
-    }
-    return (
-      <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
-      />
-    );
-  }
-  renderRow(currentRow,cols){
-    let rowItems = []
-    for(let j=0;j<cols;j++){
-       rowItems.push(this.renderSquare(cols*currentRow + j));
-    }
-    return (
-      <div className="board-row">
-        {rowItems}
-      </div>
-    );
-  }
-
-  renderHorizontalLines(){
-    const n = Math.sqrt(this.props.squares.length);
-    let response = [];
-    let x1=0, x2=0, y=0;
-
-    for(let row=0;row<n;row++){
-      y=((row*100/(n))+(100/(2*n)))+'%';
-      for(let i=0;i<n-1;i++){
-        x1=((i*100/(n))+0.5*(100/n))+'%'; 
-        x2=((i*100/(n))+1.5*(100/n))+'%';
-        if(this.props.squares[n*row+ i] && this.props.squares[n*row+i+1] && this.props.squares[n*row+i]!=='e' && this.props.squares[n*row+i+1]!=='e')
-          response.push(<line x1={x1} y1={y} x2={x2} y2={y} stroke="black"/>)
-      }
-    }
-    return response;
-  }
-
-  renderVerticalLines(){
-    const n = Math.sqrt(this.props.squares.length);
-    let response = [];
-    let y1=0, y2=0, x=0;
-
-
-    for(let col=0;col<n;col++){
-      y1=((col*100/(n))+0.5*(100/n))+'%';
-      y2=((col*100/(n))+1.5*(100/n))+'%';
-      for(let i=0;i<n;i++){
-        x=((i*100/(n))+0.5*(100/n))+'%'; 
-        if( this.props.squares[n*col+i] && this.props.squares[n*col+i+n] && this.props.squares[n*col+i]!=='e' && this.props.squares[n*col+i+n]!=='e')
-          response.push(<line x1={x} y1={y1} x2={x} y2={y2} stroke="black"/>)
-      }
-    }
-    return response;
-  }
-
-  renderDiagonalLines(){
-    const n = Math.sqrt(this.props.squares.length);
-    let response = [];
-    let y1=0, y2=0, x1=0, x2=0;
-
-    for(let col=0;col<n;col++){
-      y1=((col*100/(n))+0.5*(100/n))+'%';
-      y2=((col*100/(n))+1.5*(100/n))+'%';
-      for(let i=1;i<n;i++){
-        x1=((i*100/(n))+0.5*(100/n))+'%'; 
-        x2=((i*100/(n))-0.5*(100/n))+'%'; 
-        if( this.props.squares[n*col+i] && this.props.squares[n*col+i+n-1] 
-          && this.props.squares[n*col+i]!=='e' && this.props.squares[n*col+i+n-1]!=='e'
-        )
-          response.push(<line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black"/>)
-        }
-    }
-    return response;
-  }
-
-  render() {
-    let horizontalLines = [];
-    let verticalLines = [];
-    let diagonalLines = [];
-    horizontalLines.push(this.renderHorizontalLines(this.props.squares.length));
-    verticalLines.push(this.renderVerticalLines(this.props.squares.length));
-    if(this.props.isDiagAllowed){
-      diagonalLines.push(this.renderDiagonalLines(this.props.squares.length));
-    }
-    // consider the board as being always a perfect square, so...
-    // take n from the length of the board configuration
-    const rows = Math.sqrt(this.props.squares.length); // totalLen=49 n=7 , totalLen=25 n=5
-    const cols = rows;
-    let response = [];
-    for(let i=0;i<rows;i++){
-      response.push(this.renderRow(i,cols));
-    }
-
-    return (
-      <div>
-         <div className="divLines">
-          <svg width="auto" height="auto">
-          {horizontalLines}
-          {verticalLines}
-          {diagonalLines}
-          </svg>
-        </div>
-        {response}
-      </div>
-    );
-  }
-}
-
-// renders the board square
-function GameTable(props){
-  const rotation = props.rotation; //props.boardName==='English Triangle'?  'rotate(45deg)' : 'rotate(0deg)' ;
-  const clipPath = props.clipPath;//props.boardName==='English Triangle'? 'polygon(0% 0%, 112% 0%, 0% 112%)' : null;
-  const rows = Math.sqrt(props.squares.length); // totalLen=49, n=7
-  return(
-    <div className='ShadowContainer'>
-      <div className="Square-board" style={{width : 40*rows, height : 40*rows, transform:rotation, clipPath:clipPath}}>
-        <BoardMatrix
-        squares={props.squares} 
-        chosenPin={props.chosenPin}
-        onClick={props.onClick}
-        isDiagAllowed={props.rotation==='rotate(45deg)'}
-          />
-      </div>
-    </div>
-  );
-}
+import BOARDS from '../config/boards';
+import GameTable from './GameTable';
+import ELEMENT_TYPE from '../config/constants';
 
 const board = BOARDS;
 
 class Game extends Component {
-
-  // e: empty / p: pin / c: chosen / h: hole 
+  // e: empty / p: pin / c: chosen / h: hole
 
   constructor(props) {
     super(props);
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       boardName: 'Standard',
       squares: board.Standard.Pins.slice(),
       rotation: board.Standard.Rotation,
+      // eslint-disable-next-line react/no-unused-state
       clipPath: board.Standard.ClipPath,
       chosenPin: null
     };
   }
 
-  restart(){
+  restart() {
     this.setState({
+      // eslint-disable-next-line react/no-unused-state
       boardName: 'Standard',
       squares: board.Standard.Pins.slice(),
       rotation: board.Standard.Rotation,
+      // eslint-disable-next-line react/no-unused-state
       clipPath: board.Standard.ClipPath,
       chosenPin: null
     });
   }
 
-  tryMove(origin,destiny, isDiagAllowed){
+  tryMove(origin, destiny, isDiagAllowed) {
     // has a pin between?
     // +-14 diff (vertical)  [pin = +-7]
     // +-2 diff (horizontal) [pin = +-1]
@@ -208,65 +42,96 @@ class Game extends Component {
     // (diagonal top-left) [+14-2]
     // (diagonal bottom-right)[+14+2]
     // (diagonal bottom-left)[-14+2]
-    //3-11 16-12-8
+    // 3-11 16-12-8
 
     const numHorizontalPins = Math.sqrt(this.state.squares.length);
     let middlePinPosition;
-    const diff = destiny-origin;//24-10=14
-    if(diff === (2*numHorizontalPins) && this.state.squares[origin+numHorizontalPins] ==='p'){ // down
-      middlePinPosition = origin+numHorizontalPins;
-    }
-    else if(diff === -(2*numHorizontalPins) && this.state.squares[origin-numHorizontalPins] ==='p' ) { // up
-      middlePinPosition = origin-numHorizontalPins;
-    }
-    else if(diff === 2 && this.state.squares[origin+1] ==='p' ) { // right
-      middlePinPosition = origin+1;
-    }
-    else if(diff === -2 && this.state.squares[origin-1] ==='p') { // left
-      middlePinPosition = origin-1;
-    }
-    else if (isDiagAllowed){
-      if(diff === (2*numHorizontalPins+2) && this.state.squares[origin+numHorizontalPins+1] ==='p' ) { // topright
-        middlePinPosition = origin+numHorizontalPins+1;
-      }
-      else if(diff === (2*numHorizontalPins-2) && this.state.squares[origin+numHorizontalPins-1] ==='p' ) { // topright
-        middlePinPosition = origin+numHorizontalPins-1;
-      }
-      else if(diff === -((2*numHorizontalPins)-2) && this.state.squares[origin-numHorizontalPins+1] ==='p' ) { // bottomright
-        middlePinPosition = origin-numHorizontalPins+1; //11-5+1=7
-      } 
-      else if(diff === -((2*numHorizontalPins)+2) && this.state.squares[origin-numHorizontalPins-1] ==='p' ) { // bottomleft
-        middlePinPosition = origin-numHorizontalPins-1;
-      }
-      else{
+    const diff = destiny - origin; // 24-10=14
+    if (
+      diff === 2 * numHorizontalPins &&
+      this.state.squares[origin + numHorizontalPins] === ELEMENT_TYPE.PIN
+    ) {
+      // down
+      middlePinPosition = origin + numHorizontalPins;
+    } else if (
+      diff === -(2 * numHorizontalPins) &&
+      this.state.squares[origin - numHorizontalPins] === ELEMENT_TYPE.PIN
+    ) {
+      // up
+      middlePinPosition = origin - numHorizontalPins;
+    } else if (
+      diff === 2 &&
+      this.state.squares[origin + 1] === ELEMENT_TYPE.PIN
+    ) {
+      // right
+      middlePinPosition = origin + 1;
+    } else if (
+      diff === -2 &&
+      this.state.squares[origin - 1] === ELEMENT_TYPE.PIN
+    ) {
+      // left
+      middlePinPosition = origin - 1;
+    } else if (isDiagAllowed) {
+      if (
+        diff === 2 * numHorizontalPins + 2 &&
+        this.state.squares[origin + numHorizontalPins + 1] === ELEMENT_TYPE.PIN
+      ) {
+        // topright
+        middlePinPosition = origin + numHorizontalPins + 1;
+      } else if (
+        diff === 2 * numHorizontalPins - 2 &&
+        this.state.squares[origin + numHorizontalPins - 1] === ELEMENT_TYPE.PIN
+      ) {
+        // topright
+        middlePinPosition = origin + numHorizontalPins - 1;
+      } else if (
+        diff === -(2 * numHorizontalPins - 2) &&
+        this.state.squares[origin - numHorizontalPins + 1] === ELEMENT_TYPE.PIN
+      ) {
+        // bottomright
+        middlePinPosition = origin - numHorizontalPins + 1; // 11-5+1=7
+      } else if (
+        diff === -(2 * numHorizontalPins + 2) &&
+        this.state.squares[origin - numHorizontalPins - 1] === ELEMENT_TYPE.PIN
+      ) {
+        // bottomleft
+        middlePinPosition = origin - numHorizontalPins - 1;
+      } else {
         return false;
       }
-    }
-    else{
+    } else {
       return false;
     }
 
-    let last_squares = this.state.squares;
-    last_squares[middlePinPosition]='h';
-    last_squares[origin]='h';
-    last_squares[destiny]='p';
-    const squares = last_squares.slice();
+    const lastSquares = this.state.squares;
+    lastSquares[middlePinPosition] = 'h';
+    lastSquares[origin] = 'h';
+    lastSquares[destiny] = ELEMENT_TYPE.PIN;
+    const squares = lastSquares.slice();
     this.setState({
-      chosenPin : null,
-      squares : squares
+      chosenPin: null,
+      squares
     });
   }
-  
+
   handleClick(i) {
     // Clicked a pin (chosen or not)
-    if(this.state.squares[i]==='p' || this.state.squares[i]==='c'){
+    if (
+      this.state.squares[i] === ELEMENT_TYPE.PIN ||
+      this.state.squares[i] === ELEMENT_TYPE.CHOSEN
+    ) {
       this.setState({
-        chosenPin : this.state.chosenPin === i ? null : i
+        chosenPin: this.state.chosenPin === i ? null : i
       });
-    }
-    else if(this.state.squares[i]==='h') { // Clicked a hole
-      if(this.state.chosenPin != null) { //evaluate move
-        this.tryMove(this.state.chosenPin, i, this.state.rotation==='rotate(45deg)');
+    } else if (this.state.squares[i] === 'h') {
+      // Clicked a hole
+      if (this.state.chosenPin != null) {
+        // evaluate move
+        this.tryMove(
+          this.state.chosenPin,
+          i,
+          this.state.rotation === 'rotate(45deg)'
+        );
       }
     }
   }
@@ -274,9 +139,11 @@ class Game extends Component {
   handleBoardNameChange(event) {
     const boardName = event.value;
     this.setState({
-      boardName: boardName,
+      // eslint-disable-next-line react/no-unused-state
+      boardName,
       squares: board[boardName].Pins.slice(),
       rotation: board[boardName].Rotation,
+      // eslint-disable-next-line react/no-unused-state
       clipPath: board[boardName].ClipPath,
       chosenPin: null
     });
@@ -284,58 +151,56 @@ class Game extends Component {
 
   render() {
     const self = this;
-    const squares = self.state.squares;
-    const chosenPin = self.state.chosenPin;
-    const boardName = self.state.boardName;
-    const rotation = self.state.rotation;
-    const clipPath = self.state.clipPath;
+    const { boardName, squares, rotation, clipPath, chosenPin } = self.state;
 
-    const countPins = squares.filter(function(square){
-      return square === 'p';
-    }).length;
-    const hasWinner = (countPins===1);
-    
-    const boardNameList= Object.keys(board).map(function(name){
-      return ({ value: name, label: name });
-    })
-    if(hasWinner){
+    const countPins = squares.filter(square => square === ELEMENT_TYPE.PIN)
+      .length;
+    const hasWinner = countPins === 1;
+
+    const boardNameList = Object.keys(board).map(name => ({
+      value: name,
+      label: name
+    }));
+    if (hasWinner) {
       return (
         <div className="App">
           <div className="DivGameLabel">
-           <div className='Winner' onClick={() => self.restart()}/>
+            <button
+              className="Winner"
+              onClick={() => self.restart()}
+              onKeyDown={() => self.restart()}
+            />
           </div>
-        </div>
-      )
-    }
-    else{
-      return (
-        <div className="App">
-          <div className="DivGameLabel">
-            <Select
-              name="form-field-board-label"
-              value={this.state.value} 
-              searchable={false}
-              selectValue={this.state.value}
-              clearable= {false}
-              rtl={false}
-              onChange={(event) => self.handleBoardNameChange(event)}
-              options={boardNameList}
-              placeholder={'New Game'}
-              />
-          </div>
-          <h1 className="boardNameLabel">{self.state.boardName}</h1>
-          <GameTable
-            squares={squares}
-            chosenPin={chosenPin}
-            boardName={boardName}
-            rotation={rotation}
-            clipPath={clipPath}
-            onClick={(i) => self.handleClick(i)}
-           />
         </div>
       );
     }
-    
+
+    return (
+      <div className="App">
+        <div className="DivGameLabel">
+          <Select
+            name="form-field-board-label"
+            value={this.state.value}
+            searchable={false}
+            selectValue={this.state.value}
+            clearable={false}
+            rtl={false}
+            onChange={event => self.handleBoardNameChange(event)}
+            options={boardNameList}
+            placeholder="New Game"
+          />
+        </div>
+        <h1 className="boardNameLabel">{self.state.boardName}</h1>
+        <GameTable
+          squares={squares}
+          chosenPin={chosenPin}
+          boardName={boardName}
+          rotation={rotation}
+          clipPath={clipPath}
+          onClick={i => self.handleClick(i)}
+        />
+      </div>
+    );
   }
 }
 
