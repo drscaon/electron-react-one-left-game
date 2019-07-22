@@ -202,6 +202,7 @@
     "electron-debug": "^1.5.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
+    "js-yaml": "3.13.1",
     "react": "^16.8.6",
     "react-dom": "^16.4.1",
     "react-hot-loader": "^4.3.3",
