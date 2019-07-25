@@ -1,11 +1,11 @@
 {
-  "name": "ONE-LEFT",
+  "name": "one-left",
   "productName": "one-left",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A TRADITIONAL BOARD GAME",
   "main": "./main.prod.js",
   "author": {
-    "name": "Daniel Regis SARMENTO CAON",
+    "name": "Daniel Régis SARMENTO CAON",
     "email": "drscaon@gmail.com",
     "url": "https://github.com/drscaon"
   },
