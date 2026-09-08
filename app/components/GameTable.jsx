@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import BoardMatrix from './BoardMatrix';
 
@@ -11,6 +10,7 @@ function GameTable(props) {
       <div
         className="Square-board"
         style={{
+          '--board-columns': rows,
           width: 40 * rows,
           height: 40 * rows,
           transform: rotation,
@@ -30,9 +30,9 @@ function GameTable(props) {
 
 GameTable.propTypes = {
   rotation: PropTypes.string.isRequired,
-  clipPath: PropTypes.string.isRequired,
-  squares: PropTypes.string.isRequired,
-  chosenPin: PropTypes.number.isRequired,
+  clipPath: PropTypes.string,
+  squares: PropTypes.arrayOf(PropTypes.string).isRequired,
+  chosenPin: PropTypes.number,
   onClick: PropTypes.func.isRequired
 };
 
