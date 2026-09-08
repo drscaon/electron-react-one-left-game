@@ -1,3 +1,8 @@
+# Unreleased (2026.9.8)
+- Added Dark and Light display modes with a repositioned theme switch.
+- Added README screenshots for several board modes and refreshed the preview images from the current UI.
+- Updated transitive dependencies to resolve all reported security vulnerabilities.
+
 # 1.0.0-beta.2 (2026.9.8)
 - Added drag-and-drop movement as an alternative to click-based moves.
 - Added rounded board silhouettes, richer textures, and 3D piece depth.
