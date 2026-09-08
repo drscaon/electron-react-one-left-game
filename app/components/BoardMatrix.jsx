@@ -33,7 +33,7 @@ class BoardMatrix extends Component {
     for (let j = 0; j < cols; j += 1) {
       rowItems.push(this.renderSquare(cols * currentRow + j));
     }
-    return <div className="board-row">{rowItems}</div>;
+    return <div key={`row-${currentRow}`} className="board-row">{rowItems}</div>;
   }
   renderHorizontalLines() {
     const n = Math.sqrt(this.props.squares.length);
@@ -107,10 +107,10 @@ class BoardMatrix extends Component {
     const horizontalLines = [];
     const verticalLines = [];
     const diagonalLines = [];
-    horizontalLines.push(this.renderHorizontalLines(this.props.squares.length));
-    verticalLines.push(this.renderVerticalLines(this.props.squares.length));
+    horizontalLines.push(...this.renderHorizontalLines());
+    verticalLines.push(...this.renderVerticalLines());
     if (this.props.isDiagAllowed) {
-      diagonalLines.push(this.renderDiagonalLines(this.props.squares.length));
+      diagonalLines.push(...this.renderDiagonalLines());
     }
     // consider the board as being always a perfect square, so...
     // take n from the length of the board configuration
@@ -123,7 +123,7 @@ class BoardMatrix extends Component {
     return (
       <div>
         <div className="divLines">
-          <svg width="auto" height="auto">
+          <svg width="100%" height="100%">
             {horizontalLines}
             {verticalLines}
             {diagonalLines}

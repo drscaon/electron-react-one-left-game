@@ -8,7 +8,7 @@ function GameTable(props) {
   return (
     <div className="ShadowContainer">
       <div
-        className="Square-board"
+        className={`Square-board${rotation === 'rotate(45deg)' ? ' Square-board--rotated' : ''}`}
         style={{
           '--board-columns': rows,
           width: 40 * rows,

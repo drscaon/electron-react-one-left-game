@@ -15,7 +15,9 @@ class Game extends Component {
       squares: board.Standard.Pins.slice(),
       rotation: board.Standard.Rotation,
       clipPath: board.Standard.ClipPath,
-      chosenPin: null
+      chosenPin: null,
+      history: [],
+      boardMenuOpen: false
     };
   }
 
@@ -25,7 +27,9 @@ class Game extends Component {
       squares: board.Standard.Pins.slice(),
       rotation: board.Standard.Rotation,
       clipPath: board.Standard.ClipPath,
-      chosenPin: null
+      chosenPin: null,
+      history: [],
+      boardMenuOpen: false
     });
   }
 
@@ -103,9 +107,25 @@ class Game extends Component {
     lastSquares[origin] = 'h';
     lastSquares[destiny] = ELEMENT_TYPE.PIN;
     const squares = lastSquares.slice();
+    const history = [
+      ...this.state.history,
+      this.state.squares.slice()
+    ].slice(-10);
     this.setState({
       chosenPin: null,
-      squares
+      squares,
+      history
+    });
+  }
+
+  undo() {
+    const history = this.state.history.slice();
+    const squares = history.pop();
+    if (!squares) return;
+    this.setState({
+      chosenPin: null,
+      squares,
+      history
     });
   }
 
@@ -138,12 +158,39 @@ class Game extends Component {
       squares: board[boardName].Pins.slice(),
       rotation: board[boardName].Rotation,
       clipPath: board[boardName].ClipPath,
-      chosenPin: null
+      chosenPin: null,
+      history: [],
+      boardMenuOpen: false
     });
   }
 
+  renderBoardIcon(boardConfig) {
+    return (
+      <span
+        className="BoardIcon"
+        style={{ '--board-icon-columns': Math.sqrt(boardConfig.Pins.length) }}
+        aria-hidden="true"
+      >
+        {boardConfig.Pins.map((value, index) => (
+          <span
+            key={`${value}-${index}`}
+            className={`BoardIcon-cell BoardIcon-cell--${value}`}
+          />
+        ))}
+      </span>
+    );
+  }
+
   render() {
-    const { boardName, squares, rotation, clipPath, chosenPin } = this.state;
+    const {
+      boardName,
+      squares,
+      rotation,
+      clipPath,
+      chosenPin,
+      history,
+      boardMenuOpen
+    } = this.state;
 
     const countPins = squares.filter(square => square === ELEMENT_TYPE.PIN)
       .length;
@@ -159,6 +206,14 @@ class Game extends Component {
               className="Winner"
               onClick={() => this.restart()}
             />
+            <button
+              type="button"
+              className="UndoButton UndoButton--winner"
+              onClick={() => this.undo()}
+              disabled={history.length === 0}
+            >
+              Undo
+            </button>
           </div>
         </div>
       );
@@ -167,16 +222,45 @@ class Game extends Component {
     return (
       <div className="App">
         <div className="DivGameLabel">
-          <label htmlFor="board-select">New game</label>
-          <select
-            id="board-select"
-            value={boardName}
-            onChange={event => this.handleBoardNameChange({ value: event.target.value })}
+          <span className="BoardPickerLabel">New game</span>
+          <div className="BoardPicker">
+            <button
+              type="button"
+              className="BoardPickerButton"
+              aria-expanded={boardMenuOpen}
+              aria-haspopup="listbox"
+              onClick={() => this.setState({ boardMenuOpen: !boardMenuOpen })}
+            >
+              {this.renderBoardIcon(board[boardName])}
+              <span>{boardName}</span>
+              <span className="BoardPickerChevron" aria-hidden="true">+</span>
+            </button>
+            {boardMenuOpen && (
+              <div className="BoardPickerMenu" role="listbox" aria-label="Choose a board">
+                {Object.keys(board).map(name => (
+                  <button
+                    key={name}
+                    type="button"
+                    role="option"
+                    aria-selected={name === boardName}
+                    className="BoardPickerOption"
+                    onClick={() => this.handleBoardNameChange({ value: name })}
+                  >
+                    {this.renderBoardIcon(board[name])}
+                    <span>{name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          <button
+            type="button"
+            className="UndoButton"
+            onClick={() => this.undo()}
+            disabled={history.length === 0}
           >
-            {Object.keys(board).map(name => (
-              <option key={name} value={name}>{name}</option>
-            ))}
-          </select>
+            Undo
+          </button>
         </div>
         <p className="eyebrow">ONE LEFT</p>
         <h1 className="boardNameLabel">{boardName}</h1>

@@ -1,13 +1,15 @@
 const { app, BrowserWindow, session } = require('electron');
 const path = require('node:path');
 
+app.commandLine.appendSwitch('enable-logging');
+
 const isDevelopment = process.argv.includes('--dev');
 let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 760,
-    height: 760,
+    height: 860,
     minWidth: 560,
     minHeight: 620,
     backgroundColor: '#09111f',
