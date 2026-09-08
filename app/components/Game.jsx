@@ -17,7 +17,8 @@ class Game extends Component {
       clipPath: board.Standard.ClipPath,
       chosenPin: null,
       history: [],
-      boardMenuOpen: false
+      boardMenuOpen: false,
+      theme: 'dark'
     };
   }
 
@@ -181,6 +182,12 @@ class Game extends Component {
     this.setState({ chosenPin: null });
   }
 
+  toggleTheme() {
+    this.setState(({ theme }) => ({
+      theme: theme === 'dark' ? 'light' : 'dark'
+    }));
+  }
+
   handleBoardNameChange(event) {
     const boardName = event.value;
     this.setState({
@@ -219,7 +226,8 @@ class Game extends Component {
       clipPath,
       chosenPin,
       history,
-      boardMenuOpen
+      boardMenuOpen,
+      theme
     } = this.state;
 
     const countPins = squares.filter(square => square === ELEMENT_TYPE.PIN)
@@ -228,7 +236,7 @@ class Game extends Component {
 
     if (hasWinner) {
       return (
-        <div className="App">
+        <div className={`App App--${theme}`}>
           <div className="DivGameLabel">
             <button
               type="button"
@@ -244,13 +252,25 @@ class Game extends Component {
             >
               Undo
             </button>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={theme === 'dark'}
+              className="ThemeToggle ThemeToggle--winner"
+              onClick={() => this.toggleTheme()}
+            >
+              <span className="ThemeToggleTrack" aria-hidden="true">
+                <span className="ThemeToggleThumb" />
+              </span>
+              {theme === 'dark' ? 'Dark' : 'Light'}
+            </button>
           </div>
         </div>
       );
     }
 
     return (
-      <div className="App">
+      <div className={`App App--${theme}`}>
         <div className="DivGameLabel">
           <span className="BoardPickerLabel">New game</span>
           <div className="BoardPicker">
@@ -292,6 +312,18 @@ class Game extends Component {
             Undo
           </button>
         </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={theme === 'dark'}
+          className="ThemeToggle"
+          onClick={() => this.toggleTheme()}
+        >
+          <span className="ThemeToggleTrack" aria-hidden="true">
+            <span className="ThemeToggleThumb" />
+          </span>
+          {theme === 'dark' ? 'Dark' : 'Light'}
+        </button>
         <p className="eyebrow">ONE LEFT</p>
         <h1 className="boardNameLabel">{boardName}</h1>
         <GameTable

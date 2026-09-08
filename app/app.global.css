@@ -15,6 +15,16 @@
   text-rendering: optimizeLegibility;
 }
 
+.App--light {
+  --ink: #e8eee9;
+  --ink-soft: #d6e3dc;
+  --panel: #ffffff;
+  --panel-light: #e1eee8;
+  --mint: #247565;
+  --mint-muted: #3d756b;
+  --paper: #172b2b;
+}
+
 * { box-sizing: border-box; }
 
 body {
@@ -36,11 +46,18 @@ button:focus-visible, select:focus-visible {
 
 .App {
   display: flex;
+  position: relative;
   min-height: 100vh;
   flex-direction: column;
   align-items: center;
   padding: clamp(22px, 5vw, 54px) 20px 48px;
   text-align: center;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(168, 230, 207, 0.2), transparent 30%),
+    radial-gradient(circle at 88% 84%, rgba(255, 143, 112, 0.16), transparent 30%),
+    var(--ink);
+  color: var(--paper);
+  transition: background 220ms ease, color 220ms ease;
 }
 
 .DivGameLabel {
@@ -143,6 +160,53 @@ button:focus-visible, select:focus-visible {
 }
 
 .UndoButton:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.ThemeToggle {
+  display: inline-flex;
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 12;
+  min-width: 88px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 1px solid rgba(168, 230, 207, 0.42);
+  border-radius: 9px;
+  color: var(--paper);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.ThemeToggle:hover { background: rgba(168, 230, 207, 0.12); }
+
+.ThemeToggleTrack {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--panel-light);
+  box-shadow: inset 0 0 0 1px rgba(16, 26, 36, 0.25);
+}
+
+.ThemeToggleThumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--paper);
+  transition: transform 160ms ease;
+}
+
+.ThemeToggle[aria-checked='true'] .ThemeToggleThumb {
+  transform: translateX(12px);
+}
 
 .eyebrow {
   margin: 34px 0 5px;
@@ -289,7 +353,13 @@ button:focus-visible, select:focus-visible {
   z-index: 11;
 }
 
+.ThemeToggle--winner {
+  right: 100px;
+}
+
 @media (max-width: 520px) {
   .DivGameLabel { flex-direction: column; align-items: stretch; }
   .BoardPicker { width: 100%; }
+  .ThemeToggle { top: 16px; right: 16px; }
+  .ThemeToggle--winner { right: 100px; }
 }

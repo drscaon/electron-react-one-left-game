@@ -2,6 +2,22 @@
 
 A desktop version of the classic peg solitaire board game: remove pins by jumping over them until only one remains.
 
+## Screenshots
+
+Preview several of the available board modes:
+
+| Standard | French |
+| --- | --- |
+| ![Standard board](resources/one_left_screenshot.png) | ![French board](resources/one_left_screenshot_3.png) |
+
+| English Triangle | Arrow |
+| --- | --- |
+| ![English Triangle board](resources/one_left_screenshot_2.png) | ![Arrow board](resources/one_left_screenshot_4.png) |
+
+| Big Square |
+| --- |
+| ![Big Square board](resources/one_left_screenshot_5.png) |
+
 ## Modern stack
 
 - Electron with a secure preload boundary
