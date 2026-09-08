@@ -1,3 +1,7 @@
+# 1.0.0-beta.2 (2026.9.8)
+- Added drag-and-drop movement as an alternative to click-based moves.
+- Added rounded board silhouettes, richer textures, and 3D piece depth.
+
 # 1.0.0-beta.1 (2026.9.8)
 - Added board-shape icons to the board picker.
 - Added undo support for the last 10 moves.
