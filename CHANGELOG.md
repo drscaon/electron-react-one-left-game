@@ -1,4 +1,4 @@
-# 1.0.0 (2026.9.8)
+# 3.0.0 (2026.9.8)
 - Added board-shape icons to the board picker.
 - Added undo support for the last 10 moves.
 - Improved window sizing and responsive board layout to avoid unnecessary scrolling.
