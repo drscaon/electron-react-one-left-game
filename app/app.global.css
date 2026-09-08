@@ -1,113 +1,155 @@
-/*
- * @NOTE: Prepend a `~` to css file paths that are in your node_modules
- *        See https://github.com/webpack-contrib/sass-loader#imports
- *//*
- @import "~font-awesome/css/font-awesome.css";
-*/
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-@import "~react-select/dist/react-select.css";
+:root {
+  color: #edf7f4;
+  background: #09111f;
+  font-family: 'Space Grotesk', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
 
+* { box-sizing: border-box; }
 
-  .App {
-      text-align: center;
-  }
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(55, 177, 154, 0.18), transparent 32%),
+    radial-gradient(circle at 86% 82%, rgba(240, 145, 75, 0.12), transparent 28%),
+    #09111f;
+}
 
-  .Winner{
-    background-image: url("../resources/gifs/winner.gif") ;
-    background-repeat: repeat;
-    height: 100%;
-    background-position: center;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 9999;
-  }
+button, select { font: inherit; }
 
-  .divLines{
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: -1;
-  }
+button:focus-visible, select:focus-visible {
+  outline: 3px solid #f2c76e;
+  outline-offset: 3px;
+}
 
-  
-  .Square-board{
-    /*height: 280px;*/
-    /*width: 280px;*/
-    background-image: url("../resources/textures/metalzoom.png") ;
-    background-repeat: no-repeat, repeat;
-    background-size: cover;
-    margin: 55px auto;
-    padding: 0px;
-    box-shadow: 2px 2px rgb(55, 55, 55);
-    border-radius: 15px;
-  }
-  
-  .Square{
-    border:0 ;
-    height:40px ;
-    width:40px ;
-    background: transparent;
-  }
-  
-  .Pin{
-    border:0;
-    margin: 0 auto;
-    height: 20px;
-    width: 20px;
-    border-radius: 20px;
-    background: radial-gradient(circle at 6px 6px,  rgb(200, 200, 206), rgb(55, 55, 151), rgb(5, 5, 151));
-    transition: 0.1s;
-  }
+.App {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(22px, 5vw, 54px) 20px 48px;
+  text-align: center;
+}
 
-  .Pin:hover{
-    height: 25px;
-    width: 25px;
-    background: radial-gradient(circle at 6px 6px,  rgb(190, 190, 206), rgb(50, 50, 135), rgb(10, 10, 135));
-  }
-  
-  .Hole{
-    border:0;
-    margin: 0 auto;
-    height: 10px;
-    width: 10px;
-    background: radial-gradient(circle at 6px 6px,  black, rgb(145, 145, 145));
-    border-radius: 10px;
-  }
-  
-  .Chosen{
-    background: radial-gradient(circle at 6px 6px,  rgb(232, 239, 245),  rgb(11, 173, 173), rgb(0, 78, 255)) !important;
-    height: 22px;
-    width: 22px;
-  }
-  
-  .board-row{
-    height: 40px;
-  }
-  
-  button:focus{
-    outline: yellow;
-  }
-  
-  button{
-    border-radius: 6px;
-  }
+.DivGameLabel {
+  display: flex;
+  width: min(100%, 410px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 16px;
+  border: 1px solid rgba(108, 189, 174, 0.28);
+  border-radius: 14px;
+  background: rgba(18, 37, 56, 0.84);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.2);
+}
 
-  .DivGameLabel{
-    padding: 10px;
-    background: transparent;
-    width: 200px;
-    margin: 0 auto;
-    padding-bottom: 30px;
-  }
+.DivGameLabel label, .eyebrow {
+  color: #8fb9b4;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 
-  .boardNameLabel{
-    color: #1d4a9e;
-  }
+.DivGameLabel select {
+  min-width: 170px;
+  padding: 9px 34px 9px 12px;
+  border: 1px solid #39766e;
+  border-radius: 9px;
+  color: #edf7f4;
+  background: #163542;
+  cursor: pointer;
+}
 
-  .ShadowContainer{
-    filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.7));
-  }
+.eyebrow {
+  margin: 34px 0 5px;
+  color: #f2c76e;
+}
+
+.boardNameLabel {
+  margin: 0 0 18px;
+  color: #edf7f4;
+  font-size: clamp(1.8rem, 5vw, 2.9rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ShadowContainer { filter: drop-shadow(0 24px 22px rgba(0, 0, 0, 0.46)); }
+
+.Square-board {
+  position: relative;
+  width: min(88vw, 420px) !important;
+  height: min(88vw, 420px) !important;
+  margin: 12px auto 0;
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(139, 214, 192, 0.34);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #3f665f, #1d393e 52%, #12242e);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.Square-board > div:not(.divLines) { position: relative; z-index: 1; }
+
+.Square {
+  width: calc(100% / var(--board-columns, 7));
+  height: calc(100% / var(--board-columns, 7));
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  vertical-align: top;
+}
+
+.board-row { height: calc(100% / var(--board-columns, 7)); }
+
+.Pin, .Hole, .Chosen {
+  width: 54%;
+  aspect-ratio: 1;
+  margin: 23%;
+  border-radius: 50%;
+  transition: transform 140ms ease, filter 140ms ease;
+}
+
+.Pin {
+  background: radial-gradient(circle at 32% 25%, #eaf8f0 0 8%, #7ed3b1 18%, #33887b 57%, #123f50 100%);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.Square:hover .Pin, .Square:hover .Hole, .Square:hover .Chosen { transform: scale(1.12); filter: brightness(1.15); }
+
+.Hole {
+  width: 32%;
+  margin: 34%;
+  background: radial-gradient(circle at 35% 30%, #06131b, #0b202b 52%, #76a99d 100%);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.75), 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.Chosen {
+  background: radial-gradient(circle at 30% 25%, #fff4bd, #f2c76e 22%, #da7d47 62%, #8e3d4d 100%);
+  box-shadow: 0 0 0 4px rgba(242, 199, 110, 0.24), 0 7px 12px rgba(0, 0, 0, 0.38);
+}
+
+.divLines { position: absolute; inset: 10px; z-index: 0; pointer-events: none; }
+.divLines svg { width: 100%; height: 100%; }
+.divLines line { stroke: rgba(231, 244, 235, 0.38); stroke-width: 0.7; }
+
+.Winner {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  border: 0;
+  background: rgba(7, 19, 30, 0.86) url('../resources/gifs/winner.gif') center / cover;
+  cursor: pointer;
+}
+
+@media (max-width: 520px) {
+  .DivGameLabel { flex-direction: column; align-items: stretch; }
+  .DivGameLabel select { width: 100%; }
+}

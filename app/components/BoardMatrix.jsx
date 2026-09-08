@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Square from './Square';
 import ELEMENT_TYPE from '../config/constants';
@@ -6,7 +6,7 @@ import ELEMENT_TYPE from '../config/constants';
 // renders the board's matrix (7x7)
 class BoardMatrix extends Component {
   propTypes = {
-    chosenPin: PropTypes.number.isRequired,
+    chosenPin: PropTypes.number,
     squares: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     onClick: PropTypes.func.isRequired,
     isDiagAllowed: PropTypes.bool.isRequired
@@ -51,7 +51,7 @@ class BoardMatrix extends Component {
           this.props.squares[n * row + i] !== ELEMENT_TYPE.EMPTY &&
           this.props.squares[n * row + i + 1] !== ELEMENT_TYPE.EMPTY
         )
-          response.push(<line x1={x1} y1={y} x2={x2} y2={y} stroke="black" />);
+          response.push(<line key={`horizontal-${row}-${i}`} x1={x1} y1={y} x2={x2} y2={y} stroke="black" />);
       }
     }
     return response;
@@ -71,7 +71,7 @@ class BoardMatrix extends Component {
           this.props.squares[n * col + i] !== ELEMENT_TYPE.EMPTY &&
           this.props.squares[n * col + i + n] !== ELEMENT_TYPE.EMPTY
         )
-          response.push(<line x1={x} y1={y1} x2={x} y2={y2} stroke="black" />);
+          response.push(<line key={`vertical-${col}-${i}`} x1={x} y1={y1} x2={x} y2={y2} stroke="black" />);
       }
     }
     return response;
@@ -96,9 +96,9 @@ class BoardMatrix extends Component {
           this.props.squares[n * col + i] !== ELEMENT_TYPE.EMPTY &&
           this.props.squares[n * col + i + n - 1] !== ELEMENT_TYPE.EMPTY
         )
-          response.push(
-            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" />
-          );
+            response.push(
+              <line key={`diagonal-${col}-${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" />
+            );
       }
     }
     return response;

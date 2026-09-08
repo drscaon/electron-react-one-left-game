@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import Select from 'react-select';
+import { Component } from 'react';
 import BOARDS from '../config/boards';
 import GameTable from './GameTable';
 import ELEMENT_TYPE from '../config/constants';
@@ -12,11 +11,9 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // eslint-disable-next-line react/no-unused-state
       boardName: 'Standard',
       squares: board.Standard.Pins.slice(),
       rotation: board.Standard.Rotation,
-      // eslint-disable-next-line react/no-unused-state
       clipPath: board.Standard.ClipPath,
       chosenPin: null
     };
@@ -24,11 +21,9 @@ class Game extends Component {
 
   restart() {
     this.setState({
-      // eslint-disable-next-line react/no-unused-state
       boardName: 'Standard',
       squares: board.Standard.Pins.slice(),
       rotation: board.Standard.Rotation,
-      // eslint-disable-next-line react/no-unused-state
       clipPath: board.Standard.ClipPath,
       chosenPin: null
     });
@@ -103,7 +98,7 @@ class Game extends Component {
       return false;
     }
 
-    const lastSquares = this.state.squares;
+    const lastSquares = this.state.squares.slice();
     lastSquares[middlePinPosition] = 'h';
     lastSquares[origin] = 'h';
     lastSquares[destiny] = ELEMENT_TYPE.PIN;
@@ -139,36 +134,30 @@ class Game extends Component {
   handleBoardNameChange(event) {
     const boardName = event.value;
     this.setState({
-      // eslint-disable-next-line react/no-unused-state
       boardName,
       squares: board[boardName].Pins.slice(),
       rotation: board[boardName].Rotation,
-      // eslint-disable-next-line react/no-unused-state
       clipPath: board[boardName].ClipPath,
       chosenPin: null
     });
   }
 
   render() {
-    const self = this;
-    const { boardName, squares, rotation, clipPath, chosenPin } = self.state;
+    const { boardName, squares, rotation, clipPath, chosenPin } = this.state;
 
     const countPins = squares.filter(square => square === ELEMENT_TYPE.PIN)
       .length;
     const hasWinner = countPins === 1;
 
-    const boardNameList = Object.keys(board).map(name => ({
-      value: name,
-      label: name
-    }));
     if (hasWinner) {
       return (
         <div className="App">
           <div className="DivGameLabel">
             <button
+              type="button"
+              aria-label="Start a new game"
               className="Winner"
-              onClick={() => self.restart()}
-              onKeyDown={() => self.restart()}
+              onClick={() => this.restart()}
             />
           </div>
         </div>
@@ -178,26 +167,26 @@ class Game extends Component {
     return (
       <div className="App">
         <div className="DivGameLabel">
-          <Select
-            name="form-field-board-label"
-            value={this.state.value}
-            searchable={false}
-            selectValue={this.state.value}
-            clearable={false}
-            rtl={false}
-            onChange={event => self.handleBoardNameChange(event)}
-            options={boardNameList}
-            placeholder="New Game"
-          />
+          <label htmlFor="board-select">New game</label>
+          <select
+            id="board-select"
+            value={boardName}
+            onChange={event => this.handleBoardNameChange({ value: event.target.value })}
+          >
+            {Object.keys(board).map(name => (
+              <option key={name} value={name}>{name}</option>
+            ))}
+          </select>
         </div>
-        <h1 className="boardNameLabel">{self.state.boardName}</h1>
+        <p className="eyebrow">ONE LEFT</p>
+        <h1 className="boardNameLabel">{boardName}</h1>
         <GameTable
           squares={squares}
           chosenPin={chosenPin}
           boardName={boardName}
           rotation={rotation}
           clipPath={clipPath}
-          onClick={i => self.handleClick(i)}
+          onClick={i => this.handleClick(i)}
         />
       </div>
     );
