@@ -1,7 +1,7 @@
 {
   "name": "one-left",
   "productName": "One Left",
-  "version": "3.0.0",
+  "version": "1.0.0-beta.1",
   "description": "A modern Electron and React version of the One Left board game",
   "main": "electron/main.cjs",
   "scripts": {

@@ -1,3 +1,10 @@
+# 1.0.0-beta.1 (2026.9.8)
+- Added board-shape icons to the board picker.
+- Added undo support for the last 10 moves.
+- Improved window sizing and responsive board layout to avoid unnecessary scrolling.
+- Fixed packaged Electron asset loading and enabled built-in Electron logging.
+- Removed renderer warnings and corrected the MIT license copyright notice.
+
 # 0.13.3 (2018.5.24)
 - Add git precommit hook, when git commit will use `prettier` to format git add code
 - Add format code function in `lint-fix` npm script which can use `prettier` to format project js code
