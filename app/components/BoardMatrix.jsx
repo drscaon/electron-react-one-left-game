@@ -9,6 +9,10 @@ class BoardMatrix extends Component {
     chosenPin: PropTypes.number,
     squares: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     onClick: PropTypes.func.isRequired,
+    onDragStart: PropTypes.func.isRequired,
+    onDragEnd: PropTypes.func.isRequired,
+    onDragOver: PropTypes.func.isRequired,
+    onDrop: PropTypes.func.isRequired,
     isDiagAllowed: PropTypes.bool.isRequired
   };
 
@@ -18,6 +22,8 @@ class BoardMatrix extends Component {
         <Square
           value={ELEMENT_TYPE.CHOSEN}
           onClick={() => this.props.onClick(i)}
+          onDragStart={event => this.props.onDragStart(i, event)}
+          onDragEnd={this.props.onDragEnd}
         />
       );
     }
@@ -25,6 +31,10 @@ class BoardMatrix extends Component {
       <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        onDragStart={event => this.props.onDragStart(i, event)}
+        onDragEnd={this.props.onDragEnd}
+        onDragOver={event => this.props.onDragOver(i, event)}
+        onDrop={event => this.props.onDrop(i, event)}
       />
     );
   }

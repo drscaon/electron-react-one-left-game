@@ -21,6 +21,10 @@ function GameTable(props) {
           squares={props.squares}
           chosenPin={props.chosenPin}
           onClick={props.onClick}
+          onDragStart={props.onDragStart}
+          onDragEnd={props.onDragEnd}
+          onDragOver={props.onDragOver}
+          onDrop={props.onDrop}
           isDiagAllowed={props.rotation === 'rotate(45deg)'}
         />
       </div>
@@ -33,7 +37,11 @@ GameTable.propTypes = {
   clipPath: PropTypes.string,
   squares: PropTypes.arrayOf(PropTypes.string).isRequired,
   chosenPin: PropTypes.number,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  onDragStart: PropTypes.func.isRequired,
+  onDragEnd: PropTypes.func.isRequired,
+  onDragOver: PropTypes.func.isRequired,
+  onDrop: PropTypes.func.isRequired
 };
 
 export default GameTable;

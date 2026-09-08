@@ -9,7 +9,13 @@ function Square(props) {
   if (props.value === ELEMENT_TYPE.PIN) {
     cname = 'Pin';
     return (
-      <button className="Square" onClick={props.onClick}>
+      <button
+        className="Square"
+        draggable
+        onClick={props.onClick}
+        onDragStart={props.onDragStart}
+        onDragEnd={props.onDragEnd}
+      >
         <div className={cname} />
       </button>
     );
@@ -19,7 +25,12 @@ function Square(props) {
     cname = 'Hole';
   }
   return (
-    <button className="Square" onClick={props.onClick}>
+    <button
+      className="Square"
+      onClick={props.onClick}
+      onDragOver={props.onDragOver}
+      onDrop={props.onDrop}
+    >
       <div className={cname} />
     </button>
   );
@@ -27,7 +38,11 @@ function Square(props) {
 
 Square.propTypes = {
   value: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  onDragStart: PropTypes.func,
+  onDragEnd: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDrop: PropTypes.func
 };
 
 export default Square;

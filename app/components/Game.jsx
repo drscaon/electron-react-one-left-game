@@ -151,6 +151,36 @@ class Game extends Component {
     }
   }
 
+  handleDragStart(i, event) {
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', String(i));
+    this.setState({ chosenPin: i });
+  }
+
+  handleDragEnd() {
+    this.setState({ chosenPin: null });
+  }
+
+  handleDragOver(i, event) {
+    if (this.state.squares[i] === ELEMENT_TYPE.HOLE) {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+    }
+  }
+
+  handleDrop(i, event) {
+    event.preventDefault();
+    const origin = Number(event.dataTransfer.getData('text/plain'));
+    if (
+      Number.isInteger(origin) &&
+      this.state.squares[i] === ELEMENT_TYPE.HOLE &&
+      this.state.squares[origin] === ELEMENT_TYPE.PIN
+    ) {
+      this.tryMove(origin, i, this.state.rotation === 'rotate(45deg)');
+    }
+    this.setState({ chosenPin: null });
+  }
+
   handleBoardNameChange(event) {
     const boardName = event.value;
     this.setState({
@@ -271,6 +301,10 @@ class Game extends Component {
           rotation={rotation}
           clipPath={clipPath}
           onClick={i => this.handleClick(i)}
+          onDragStart={(i, event) => this.handleDragStart(i, event)}
+          onDragEnd={() => this.handleDragEnd()}
+          onDragOver={(i, event) => this.handleDragOver(i, event)}
+          onDrop={(i, event) => this.handleDrop(i, event)}
         />
       </div>
     );
