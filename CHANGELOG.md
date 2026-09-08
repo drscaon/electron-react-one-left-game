@@ -1,3 +1,17 @@
+# 1.0.0 (2026.9.8)
+- Added board-shape icons to the board picker.
+- Added undo support for the last 10 moves.
+- Improved window sizing and responsive board layout to avoid unnecessary scrolling.
+- Fixed packaged Electron asset loading and enabled built-in Electron logging.
+- Removed renderer warnings and corrected the MIT license copyright notice.
+- Added drag-and-drop movement as an alternative to click-based moves.
+- Added rounded board silhouettes, richer textures, and 3D piece depth.
+- Added Dark and Light display modes with a repositioned theme switch.
+- Added README screenshots for several board modes and refreshed the preview images from the current UI.
+- Updated transitive dependencies to resolve all reported security vulnerabilities.
+- Fixed English Triangle diagonal moves so only jumps with a single pin between the origin and destination are accepted.
+- Cleaned up indentation and formatting across board configuration and rendering code.
+
 # 0.13.3 (2018.5.24)
 - Add git precommit hook, when git commit will use `prettier` to format git add code
 - Add format code function in `lint-fix` npm script which can use `prettier` to format project js code

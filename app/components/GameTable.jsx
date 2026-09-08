@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import BoardMatrix from './BoardMatrix';
 
@@ -9,8 +8,9 @@ function GameTable(props) {
   return (
     <div className="ShadowContainer">
       <div
-        className="Square-board"
+        className={`Square-board${rotation === 'rotate(45deg)' ? ' Square-board--rotated' : ''}`}
         style={{
+          '--board-columns': rows,
           width: 40 * rows,
           height: 40 * rows,
           transform: rotation,
@@ -21,6 +21,10 @@ function GameTable(props) {
           squares={props.squares}
           chosenPin={props.chosenPin}
           onClick={props.onClick}
+          onDragStart={props.onDragStart}
+          onDragEnd={props.onDragEnd}
+          onDragOver={props.onDragOver}
+          onDrop={props.onDrop}
           isDiagAllowed={props.rotation === 'rotate(45deg)'}
         />
       </div>
@@ -30,10 +34,14 @@ function GameTable(props) {
 
 GameTable.propTypes = {
   rotation: PropTypes.string.isRequired,
-  clipPath: PropTypes.string.isRequired,
-  squares: PropTypes.string.isRequired,
-  chosenPin: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired
+  clipPath: PropTypes.string,
+  squares: PropTypes.arrayOf(PropTypes.string).isRequired,
+  chosenPin: PropTypes.number,
+  onClick: PropTypes.func.isRequired,
+  onDragStart: PropTypes.func.isRequired,
+  onDragEnd: PropTypes.func.isRequired,
+  onDragOver: PropTypes.func.isRequired,
+  onDrop: PropTypes.func.isRequired
 };
 
 export default GameTable;

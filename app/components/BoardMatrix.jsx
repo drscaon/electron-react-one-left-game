@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Square from './Square';
 import ELEMENT_TYPE from '../config/constants';
@@ -6,9 +6,13 @@ import ELEMENT_TYPE from '../config/constants';
 // renders the board's matrix (7x7)
 class BoardMatrix extends Component {
   propTypes = {
-    chosenPin: PropTypes.number.isRequired,
+    chosenPin: PropTypes.number,
     squares: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     onClick: PropTypes.func.isRequired,
+    onDragStart: PropTypes.func.isRequired,
+    onDragEnd: PropTypes.func.isRequired,
+    onDragOver: PropTypes.func.isRequired,
+    onDrop: PropTypes.func.isRequired,
     isDiagAllowed: PropTypes.bool.isRequired
   };
 
@@ -18,6 +22,8 @@ class BoardMatrix extends Component {
         <Square
           value={ELEMENT_TYPE.CHOSEN}
           onClick={() => this.props.onClick(i)}
+          onDragStart={event => this.props.onDragStart(i, event)}
+          onDragEnd={this.props.onDragEnd}
         />
       );
     }
@@ -25,16 +31,22 @@ class BoardMatrix extends Component {
       <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        onDragStart={event => this.props.onDragStart(i, event)}
+        onDragEnd={this.props.onDragEnd}
+        onDragOver={event => this.props.onDragOver(i, event)}
+        onDrop={event => this.props.onDrop(i, event)}
       />
     );
   }
+
   renderRow(currentRow, cols) {
     const rowItems = [];
     for (let j = 0; j < cols; j += 1) {
       rowItems.push(this.renderSquare(cols * currentRow + j));
     }
-    return <div className="board-row">{rowItems}</div>;
+    return <div key={`row-${currentRow}`} className="board-row">{rowItems}</div>;
   }
+
   renderHorizontalLines() {
     const n = Math.sqrt(this.props.squares.length);
     const response = [];
@@ -50,12 +62,23 @@ class BoardMatrix extends Component {
           this.props.squares[n * row + i + 1] &&
           this.props.squares[n * row + i] !== ELEMENT_TYPE.EMPTY &&
           this.props.squares[n * row + i + 1] !== ELEMENT_TYPE.EMPTY
-        )
-          response.push(<line x1={x1} y1={y} x2={x2} y2={y} stroke="black" />);
+        ) {
+          response.push(
+            <line
+              key={`horizontal-${row}-${i}`}
+              x1={x1}
+              y1={y}
+              x2={x2}
+              y2={y}
+              stroke="black"
+            />
+          );
+        }
       }
     }
     return response;
   }
+
   renderVerticalLines() {
     const n = Math.sqrt(this.props.squares.length);
     const response = [];
@@ -70,12 +93,23 @@ class BoardMatrix extends Component {
           this.props.squares[n * col + i + n] &&
           this.props.squares[n * col + i] !== ELEMENT_TYPE.EMPTY &&
           this.props.squares[n * col + i + n] !== ELEMENT_TYPE.EMPTY
-        )
-          response.push(<line x1={x} y1={y1} x2={x} y2={y2} stroke="black" />);
+        ) {
+          response.push(
+            <line
+              key={`vertical-${col}-${i}`}
+              x1={x}
+              y1={y1}
+              x2={x}
+              y2={y2}
+              stroke="black"
+            />
+          );
+        }
       }
     }
     return response;
   }
+
   renderDiagonalLines() {
     const n = Math.sqrt(this.props.squares.length);
     const response = [];
@@ -95,22 +129,31 @@ class BoardMatrix extends Component {
           this.props.squares[n * col + i + n - 1] &&
           this.props.squares[n * col + i] !== ELEMENT_TYPE.EMPTY &&
           this.props.squares[n * col + i + n - 1] !== ELEMENT_TYPE.EMPTY
-        )
+        ) {
           response.push(
-            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" />
+            <line
+              key={`diagonal-${col}-${i}`}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              stroke="black"
+            />
           );
+        }
       }
     }
     return response;
   }
+
   render() {
     const horizontalLines = [];
     const verticalLines = [];
     const diagonalLines = [];
-    horizontalLines.push(this.renderHorizontalLines(this.props.squares.length));
-    verticalLines.push(this.renderVerticalLines(this.props.squares.length));
+    horizontalLines.push(...this.renderHorizontalLines());
+    verticalLines.push(...this.renderVerticalLines());
     if (this.props.isDiagAllowed) {
-      diagonalLines.push(this.renderDiagonalLines(this.props.squares.length));
+      diagonalLines.push(...this.renderDiagonalLines());
     }
     // consider the board as being always a perfect square, so...
     // take n from the length of the board configuration
@@ -123,7 +166,7 @@ class BoardMatrix extends Component {
     return (
       <div>
         <div className="divLines">
-          <svg width="auto" height="auto">
+          <svg width="100%" height="100%">
             {horizontalLines}
             {verticalLines}
             {diagonalLines}
