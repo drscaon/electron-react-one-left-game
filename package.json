@@ -74,7 +74,7 @@
     "electron": "^44.2.0",
     "electron-builder": "^26.15.3",
     "eslint": "^10.10.0",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.5",
     "vite": "^8.2.2",
     "wait-on": "^9.1.0"
   },
